@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurex Fursuits - Premium 3D Fursuit Design</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #FFD700;
+            --gold-dark: #B8860B;
+            --gold-light: #FFF4C4;
+            --primary: #FF6B9D;
+            --secondary: #C44569;
+            --accent: #FFA07A;
+            --purple: #9B59B6;
+            --blue: #3498DB;
+            --dark: #0a0a0a;
+            --dark-card: #1a1a1a;
+            --light: #ECF0F1;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: #000000;
+            color: var(--light);
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+        
+        /* 3D Background with Stars */
+        .bg-3d {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(155, 89, 182, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(52, 152, 219, 0.08) 0%, transparent 50%),
+                linear-gradient(180deg, #000000 0%, #0a0a14 100%);
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        /* 3D Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--gold);
+            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.2);
+            transform-style: preserve-3d;
+            animation: navSlideDown 0.8s ease-out;
+        }
+        
+        @keyframes navSlideDown {
+            from { 
+                transform: translateY(-100%) translateZ(-100px);
+                opacity: 0;
+            }
+            to { 
+                transform: translateY(0) translateZ(0);
+                opacity: 1;
+            }
+        }
+        
+        .nav-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transform-style: preserve-3d;
+            transition: transform 0.3s;
+        }
+        
+        .nav-logo-container:hover {
+            transform: translateZ(20px) scale(1.05);
+        }
+        
+        .nav-logo-img {
+            height: 50px;
+            width: auto;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .nav-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            letter-spacing: 2px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            position: relative;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+            transform-style: preserve-3d;
+        }
+        
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s;
+            box-shadow: 0 0 10px var(--gold);
+        }
+        
+        .nav-links a:hover {
+            color: var(--gold);
+            transform: translateZ(10px);
+        }
+        
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+        
+        /* 3D Hero Section */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+        
+        .hero-content {
+            z-index: 2;
+            transform-style: preserve-3d;
+            animation: heroFloat 2s ease-out;
+        }
+        
+        @keyframes heroFloat {
+            from {
+                opacity: 0;
+                transform: translateY(50px) translateZ(-200px) rotateX(20deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) translateZ(0) rotateX(0deg);
+            }
+        }
+        
+        .hero-logo {
+            max-width: 400px;
+            width: 80%;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 20px 60px rgba(255, 215, 0, 0.6));
+            animation: heroLogoFloat 4s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+        
+        @keyframes heroLogoFloat {
+            0%, 100% { 
+                transform: translateY(0px) translateZ(0px) rotateY(0deg);
+            }
+            50% { 
+                transform: translateY(-20px) translateZ(30px) rotateY(5deg);
+            }
+        }
+        
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 60px rgba(255, 215, 0, 0.5);
+            letter-spacing: 4px;
+            animation: titlePulse 3s ease-in-out infinite;
+            transform-style: preserve-3d;
+        }
+        
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1) translateZ(0); }
+            50% { transform: scale(1.05) translateZ(20px); }
+        }
+        
+        .tagline {
+            font-size: 1.8rem;
+            color: var(--gold-light);
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            animation: taglineFade 1.5s ease-out 0.5s both;
+        }
+        
+        @keyframes taglineFade {
+            from {
+                opacity: 0;
+                transform: translateZ(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateZ(0);
+            }
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce3D 2s infinite;
+            transform-style: preserve-3d;
+        }
+        
+        @keyframes bounce3D {
+            0%, 20%, 50%, 80%, 100% { 
+                transform: translateX(-50%) translateY(0) translateZ(0); 
+            }
+            40% { 
+                transform: translateX(-50%) translateY(-20px) translateZ(20px); 
+            }
+            60% { 
+                transform: translateX(-50%) translateY(-10px) translateZ(10px); 
+            }
+        }
+        
+        .scroll-indicator::before {
+            content: '↓';
+            font-size: 2.5rem;
+            color: var(--gold);
+            filter: drop-shadow(0 0 10px var(--gold));
+        }
+        
+        /* 3D Sections */
+        section {
+            padding: 8rem 5%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+            transform-style: preserve-3d;
+            animation: sectionTitleAppear 1s ease-out;
+        }
+        
+        @keyframes sectionTitleAppear {
+            from {
+                opacity: 0;
+                transform: translateY(-30px) translateZ(-100px) rotateX(45deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) translateZ(0) rotateX(0deg);
+            }
+        }
+        
+        /* 3D About Section */
+        .about-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+            transform-style: preserve-3d;
+        }
+        
+        .about-text {
+            font-size: 1.4rem;
+            line-height: 2;
+            color: var(--light);
+            margin-bottom: 3rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            animation: textFloat 1s ease-out 0.3s both;
+        }
+        
+        @keyframes textFloat {
+            from {
+                opacity: 0;
+                transform: translateZ(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateZ(0);
+            }
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-top: 4rem;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
+            border: 2px solid var(--gold);
+            border-radius: 25px;
+            padding: 3rem;
+            transition: all 0.4s;
+            transform-style: preserve-3d;
+            box-shadow: 
+                0 10px 40px rgba(255, 215, 0, 0.2),
+                inset 0 0 20px rgba(255, 215, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+        }
+        
+        .stat-card:hover::before {
+            left: 100%;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-20px) translateZ(50px) rotateX(5deg);
+            box-shadow: 
+                0 30px 80px rgba(255, 215, 0, 0.4),
+                inset 0 0 30px rgba(255, 215, 0, 0.2);
+            border-color: var(--gold-light);
+        }
+        
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--gold);
+            font-family: 'Orbitron', cursive;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            filter: drop-shadow(0 5px 15px rgba(255, 215, 0, 0.3));
+        }
+        
+        .stat-label {
+            font-size: 1.3rem;
+            color: var(--gold-light);
+            margin-top: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        /* 3D Gallery */
+        .gallery-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+            flex-wrap: wrap;
+            transform-style: preserve-3d;
+        }
+        
+        .tab-btn {
+            padding: 1.2rem 3rem;
+            border: 2px solid var(--gold);
+            background: rgba(255, 215, 0, 0.05);
+            color: var(--gold-light);
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            transition: width 0.4s, height 0.4s, top 0.4s, left 0.4s;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+        
+        .tab-btn:hover::before, .tab-btn.active::before {
+            width: 400px;
+            height: 400px;
+        }
+        
+        .tab-btn:hover, .tab-btn.active {
+            color: #000;
+            border-color: var(--gold-light);
+            transform: translateY(-5px) translateZ(20px);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 3rem;
+            margin-top: 2rem;
+            perspective: 1000px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 25px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(155, 89, 182, 0.1));
+            border: 3px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.5s;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+            z-index: 1;
+        }
+        
+        .gallery-item:hover::before {
+            left: 100%;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-20px) translateZ(50px) rotateY(5deg) rotateX(5deg);
+            box-shadow: 
+                0 30px 80px rgba(255, 215, 0, 0.5),
+                0 0 40px rgba(255, 215, 0, 0.3);
+            border-color: var(--gold);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .placeholder-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.3rem;
+            color: var(--gold);
+            font-weight: 700;
+            text-align: center;
+            padding: 2rem;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            z-index: 2;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.6s;
+        }
+        
+        @keyframes fadeIn {
+            from { 
+                opacity: 0;
+                transform: translateZ(-100px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateZ(0);
+            }
+        }
+        
+        /* 3D Terms Section */
+        .terms-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            gap: 3rem;
+            transform-style: preserve-3d;
+        }
+        
+        .terms-card {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05), rgba(10, 10, 10, 0.9));
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            border-radius: 25px;
+            padding: 3rem;
+            transition: all 0.4s;
+            transform-style: preserve-3d;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .terms-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--gold), var(--gold-light), var(--gold));
+            border-radius: 25px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        
+        .terms-card:hover::before {
+            opacity: 0.3;
+        }
+        
+        .terms-card:hover {
+            transform: translateY(-15px) translateZ(40px) rotateX(3deg);
+            box-shadow: 
+                0 30px 80px rgba(255, 215, 0, 0.3),
+                0 0 50px rgba(255, 215, 0, 0.2);
+            border-color: var(--gold);
+        }
+        
+        .terms-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            filter: drop-shadow(0 5px 15px rgba(255, 215, 0, 0.5));
+        }
+        
+        .terms-card h3 {
+            font-family: 'Orbitron', cursive;
+            font-size: 2.2rem;
+            color: var(--gold);
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            font-weight: 800;
+        }
+        
+        .terms-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .terms-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s;
+            transform-style: preserve-3d;
+        }
+        
+        .terms-item:hover {
+            background: rgba(255, 215, 0, 0.08);
+            border-color: var(--gold);
+            transform: translateX(10px) translateZ(10px);
+        }
+        
+        .terms-item.important {
+            border: 2px solid var(--gold);
+            background: rgba(255, 215, 0, 0.1);
+            box-shadow: 0 5px 25px rgba(255, 215, 0, 0.2);
+        }
+        
+        .bullet {
+            font-size: 1.8rem;
+            color: var(--gold);
+            flex-shrink: 0;
+            line-height: 1.6;
+            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.5));
+        }
+        
+        .terms-item p {
+            color: var(--light);
+            line-height: 1.9;
+            font-size: 1.15rem;
+        }
+        
+        .terms-item strong {
+            color: var(--gold-light);
+            font-weight: 700;
+        }
+        
+        .terms-contact {
+            text-align: center;
+            font-size: 1.3rem;
+            color: var(--light);
+            line-height: 2;
+            padding: 2.5rem;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+        
+        /* 3D Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            transform-style: preserve-3d;
+        }
+        
+        .social-btn {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 2rem;
+            transition: all 0.4s;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            transform-style: preserve-3d;
+            position: relative;
+        }
+        
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        
+        .social-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-10px) translateZ(30px) rotateY(360deg);
+            box-shadow: 0 20px 50px rgba(255, 215, 0, 0.6);
+        }
+        
+        /* 3D Footer */
+        footer {
+            background: linear-gradient(180deg, rgba(10, 10, 10, 0.95), rgba(0, 0, 0, 1));
+            padding: 4rem 5%;
+            text-align: center;
+            border-top: 3px solid var(--gold);
+            box-shadow: 0 -10px 40px rgba(255, 215, 0, 0.2);
+            transform-style: preserve-3d;
+        }
+        
+        footer p {
+            color: var(--gold-light);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .footer-heart {
+            color: var(--gold);
+            animation: heartbeat 1.5s ease-in-out infinite;
+            display: inline-block;
+            filter: drop-shadow(0 0 10px var(--gold));
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            15%, 30% { transform: scale(1.3); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .nav-logo-img {
+                height: 40px;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            section {
+                padding: 5rem 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-3d"></div>
+    <div class="stars" id="stars"></div>
+    
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-logo-container">
+            <img src="aurex-logo.jpeg" alt="Aurex Logo" class="nav-logo-img">
+            <div class="nav-logo">AUREX</div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#terms">Terms</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Hero Section -->
+    <header id="home">
+        <div class="hero-content">
+            <img src="aurex-logo.jpeg" alt="Aurex Fursuits Logo" class="hero-logo">
+            <h1 class="hero-title">AUREX FURSUITS</h1>
+        </div>
+        <div class="scroll-indicator"></div>
+    </header>
+    
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title">ABOUT US</h2>
+        <div class="about-content">
+            <p class="about-text">
+                Welcome to Aurex Fursuits! We specialize in crafting high-quality, premium fursuits that bring your character to life with stunning detail and comfort. Each piece is custom-designed with meticulous attention to every feature, ensuring your fursona becomes a reality. Whether you're looking for a full suit, partial, or accessories, we work closely with you to create something truly extraordinary.
+            </p>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">5+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+            </div>
+            
+            <div class="social-links">
+                <a href="https://www.instagram.com/aurex_fursuits?igsh=MTk2bGt0OGo2dzdxOA%3D%3D&utm_source=qr" class="social-btn" target="_blank" title="Instagram">📷</a>
+                <a href="https://www.tiktok.com/@aurex_fursuits?_r=1&_t=ZS-92iTrYReSqT" class="social-btn" target="_blank" title="TikTok">🎵</a>
+                <a href="aurex748@gmail.com" class="social-btn" title="Email">✉️</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Gallery Section -->
+    <section id="gallery">
+        <h2 class="section-title">PORTFOLIO</h2>
+        
+        <div class="gallery-tabs">
+            <button class="tab-btn active" data-tab="fullsuit">Full Suits</button>
+            <button class="tab-btn" data-tab="partial">Partial Suits</button>
+            <button class="tab-btn" data-tab="accessories">Accessories</button>
+        </div>
+        
+        <!-- Full Suits Tab -->
+        <div id="fullsuit" class="tab-content active">
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                   <img src="images/fullsuit-1.jpg.jpeg" alt="Full Fursuit 1">
+                </div>
+                <div class="gallery-item">
+                   <img src="images/fullsuit-2.jpg.jpeg" alt="Full Fursuit 2">
+                </div>
+                <div class="gallery-item">
+                   <img src="images/fullsuit-3.jpg.jpeg" alt="Full Fursuit 3">
+                </div>
+                <div class="gallery-item">
+                   <img src="images/fullsuit-4.jpg.jpeg" alt="Full Fursuit 4">
+                </div>
+               <div class="gallery-item">
+                  <img src="images/fullsuit-5.jpg.jpeg" alt="Full Fursuit 5">
+               </div>
+                <div class="gallery-item">
+               <img src="images/fullsuit-6.jpg.jpeg" alt="Full Fursuit 6">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Partial Suits Tab -->
+        <div id="partial" class="tab-content">
+            <div class="gallery-grid">  
+                <div class="gallery-item">
+                   <img src="images/partial-1.jpg.jpeg" alt="Full Fursuit 1">
+                </div>
+                <div class="gallery-item">
+                   <img src="images/partial-2.jpg.jpeg" alt="Full Fursuit 2">
+                </div>
+                <div class="gallery-item">
+                   <img src="images/partial-3.jpg.jpeg" alt="Full Fursuit 3">
+                </div>
+                <div class="gallery-item">
+                   <img src="images/partial-4.jpg.jpeg" alt="Full Fursuit 4">
+                </div>
+                <div class="gallery-item">
+                   <img src="images/partial-5.jpg.jpeg" alt="Full Fursuit 5">
+                <div class="gallery-item">
+                   <img src="images/partial-6.jpg.jpeg" alt="Full Fursuit 6">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Accessories Tab -->
+        <div id="accessories" class="tab-content">
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                   <img src="images/accesories-1.jpg.jpeg" alt="Full Fursuit 1">
+                </div>
+               <div class="gallery-item">
+                  <img src="images/accesories-2.jpg.jpeg" alt="Full Fursuit 2">
+                </div>
+                <div class="gallery-item">
+                   <img src="images/accesories-3.jpg.jpeg" alt="Full Fursuit 3">
+                </div>
+                <div class="gallery-item">
+                   <img src="images/accesories-4.jpg.jpeg" alt="Full Fursuit 4">
+                </div>
+                <div class="gallery-item">
+                   <img src="images/accesories-5.jpg.jpeg" alt="Full Fursuit 5">
+                </div>
+                <div class="gallery-item">
+                   <img src="images/accesories-6.jpg.jpeg" alt="Full Fursuit 6">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Terms of Service Section -->
+    <section id="terms">
+        <h2 class="section-title">TERMS OF SERVICE</h2>
+        <div class="terms-content">
+            
+            <div class="terms-card">
+                <div class="terms-icon">📋</div>
+                <h3>Commission Cancellations & Refunds</h3>
+                <div class="terms-list">
+                    <div class="terms-item">
+                        <span class="bullet">•</span>
+                        <p><strong>Canceled by Client:</strong> If you need to cancel your commission, I will refund the full amount minus the 25% deposit. This deposit covers material costs and ensures I don't incur losses from supplies already purchased.</p>
+                    </div>
+                    <div class="terms-item">
+                        <span class="bullet">•</span>
+                        <p><strong>Canceled by Me:</strong> If I need to cancel the commission for any reason, you will receive a 100% refund of all payments made.</p>
+                    </div>
+                    <div class="terms-item">
+                        <span class="bullet">•</span>
+                        <p><strong>Character Rights:</strong> Once a commission is canceled, I reserve the right to modify the character's markings and features to resell the product. The redesigned suit will not resemble your original character.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="terms-card">
+                <div class="terms-icon">📦</div>
+                <h3>Shipping & Delivery</h3>
+                <div class="terms-list">
+                    <div class="terms-item">
+                        <span class="bullet">•</span>
+                        <p><strong>Shipping Costs:</strong> All shipping fees are the responsibility of the client. Any additional fees or duties incurred during shipping are not my responsibility.</p>
+                    </div>
+                    <div class="terms-item">
+                        <span class="bullet">•</span>
+                        <p><strong>Package Safety:</strong> Once your product is shipped, I cannot be held responsible for what happens during transit. I will package your item with the utmost care, but if the package is lost or damaged, we will file a claim with the carrier.</p>
+                    </div>
+                    <div class="terms-item important">
+                        <span class="bullet">⚠️</span>
+                        <p><strong>Insurance Coverage:</strong> Standard insurance covers up to $1,000 CAD automatically. For higher-value items requiring additional coverage, please contact me directly to arrange private shipping. This will cost more but ensures full coverage. Without private shipping, refunds for lost or damaged items are limited to the $1,000 CAD insurance maximum.</p>
+                    </div>
+                    <div class="terms-item">
+                        <span class="bullet">•</span>
+                        <p><strong>Insurance is Optional:</strong> Delivery insurance is completely optional and not mandatory. If you choose to add insurance coverage for your shipment, all insurance fees will be paid by you (the client). You can decide whether or not you want insurance protection based on your package's value and your comfort level.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="terms-card">
+                <div class="terms-icon">💬</div>
+                <h3>Questions?</h3>
+                <p class="terms-contact">If you have any questions about these terms or need clarification, please don't hesitate to reach out! I'm here to make your commission experience smooth and enjoyable.</p>
+                <div class="social-links" style="margin-top: 2rem;">
+                    <a href="https://www.instagram.com/aurex_fursuits?igsh=MTk2bGt0OGo2dzdxOA%3D%3D&utm_source=qr" class="social-btn" target="_blank" title="Instagram">📷</a>
+                    <a href="https://www.tiktok.com/@aurex_fursuits?_r=1&_t=ZS-92iTrYReSqT" class="social-btn" target="_blank" title="TikTok">🎵</a>
+                    <a href="aurex748@gmail.com" class="social-btn" title="Email">✉️</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Aurex Fursuits. Made with <span class="footer-heart">♥</span> for the furry community</p>
+    </footer>
+    
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Create animated stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 100;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        createStars();
+        
+        // Tab Switching
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked
+                btn.classList.add('active');
+                const tabId = btn.getAttribute('data-tab');
+                const targetTab = document.getElementById(tabId);
+                if (targetTab) {
+                    targetTab.classList.add('active');
+                }
+            });
+        });
+        
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // 3D Parallax Effect on Mouse Move (excluding buttons)
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth - 0.5;
+            const mouseY = e.clientY / window.innerHeight - 0.5;
+            
+            document.querySelectorAll('.stat-card, .terms-card').forEach(card => {
+                const speed = card.dataset.speed || 5;
+                const x = mouseX * speed;
+                const y = mouseY * speed;
+                
+                card.style.transform = `perspective(1000px) rotateY(${x}deg) rotateX(${-y}deg)`;
+            });
+            
+            // Separate parallax for gallery items
+            document.querySelectorAll('.gallery-item').forEach(card => {
+                const speed = 3;
+                const x = mouseX * speed;
+                const y = mouseY * speed;
+                
+                card.style.transform = `perspective(1000px) rotateY(${x}deg) rotateX(${-y}deg)`;
+            });
+        });
+        
+        // Reset transform on mouse leave
+        document.addEventListener('mouseleave', () => {
+            document.querySelectorAll('.stat-card, .gallery-item, .terms-card').forEach(card => {
+                card.style.transform = '';
+            });
+        });
+    </script>
+</body>
+</html>
